@@ -32,6 +32,8 @@ import java.util.Random;
  * Finalmente, cuando se acaban las cartas, el jugador que más combates gane, gana la partida.
  * Nota: se puede decidir que se acabe el juego si quedan menos de 6 cartas, ya que no se podría realizar un combate en
  * condiciones (ya que cada jugador necesita 3 cartas).
+ * Nota 2: se puede decir que se acabe el juego si quedan menos de 10 cartas, ya que existe la opción que cada jugador seleccione
+ * de la baraja hasta un máximo de 5 cartas (3 guardadas y 2 descartadas) durante el combate.
  */
 
 

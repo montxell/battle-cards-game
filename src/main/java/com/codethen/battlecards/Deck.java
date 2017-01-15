@@ -43,7 +43,7 @@ public class Deck {
                 final Card card = new Card(magic, strength, skill);
                 cards.add(card);
 
-                // cards.add(new Card(magic, strength, skill);
+                // También se puede realizar:  cards.add(new Card(magic, strength, skill);
 
             }
 
@@ -54,38 +54,34 @@ public class Deck {
     }
 
 
+
     public List<Card> shuffle() {
 
         Random random = new Random();
 
-        List<Card> temp = new ArrayList<>();
-
-        while (cards.size() > 0) {
+        for (int i = 0; i < cards.size(); i++) {
 
             int cardPosition = random.nextInt(cards.size());
 
-            temp.add(cards.get(cardPosition));
-            cards.remove(cardPosition);
+            Card temp = cards.get(i);    // Guardamos la carta de la posición "i".
+
+            cards.set(i, cards.get(cardPosition)); // Establecemos en la posición "i" la carta de la posición aleatoria generada (cardPosition)
+            cards.set(cardPosition, temp);  // Establecemos en la posición aleatoria (cardPosition) la carta guardada inicial "temp".
+
         }
 
-        cards = temp;
-
         return cards;
-    }
 
-
-    public Card getCardFromDeck() {
-
-        return cards.get(0);
-    }
-
-
-    public Card removePickedCard() {
-
-        return cards.remove(0);
     }
 
 
 
+    public Card pickCard () {
+
+        Card pickedCard = cards.get(0);
+        cards.remove(0);
+
+        return pickedCard;
+    }
 
 }

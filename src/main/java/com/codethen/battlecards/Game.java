@@ -1,15 +1,23 @@
 package com.codethen.battlecards;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
 
+    /** total num of players */
+    public static final int NUM_TOTAL_PLAYERS = 2;
+
     /** maximum num of cards a player can take */
     public static final int MAX_CARDS_TO_TAKE = 5;
 
+    /** maximum num of cards a player can reject */
     public static final int MAX_CARDS_TO_REJECT = Game.MAX_CARDS_TO_TAKE - Hand.NUM_TOTAL_CARDS;
-    public static final int MIN_CARDS_TO_PLAY_BATTLE = 10;  //Cambio mínimo de cartas de 6 a 10.
 
+    /** minimum num of cards to play a battle */
+    public static final int MIN_CARDS_TO_PLAY_BATTLE = MAX_CARDS_TO_TAKE * NUM_TOTAL_PLAYERS;  //Cambio mínimo de cartas de 6 a 10.
+                                                                                               //Cada jugador tiene opción de coger max 5 cartas de la baraja
+                                                                                               //(3 para quedarse y 2 para descartar) en cada combate.
     private Deck deck;
 
     private Player p1;
@@ -17,8 +25,6 @@ public class Game {
 
     private Player currentPlayer;
     private Player nextPlayer;
-
-    private Player winner;
 
 
     public Game(Deck deck, Player p1, Player p2) {
@@ -31,7 +37,7 @@ public class Game {
 
     public void start(boolean p1StartsToPick) {
 
-        // JUGADOR QUE EMPIEZA A ESCOGER CARTAS
+        // Player who starts to pick cards
 
         if (p1StartsToPick) {
 
@@ -45,7 +51,7 @@ public class Game {
         }
 
 
-        // COMBATES
+        // Battles
 
         while(deck.getCount() >= MIN_CARDS_TO_PLAY_BATTLE) {
 
@@ -54,18 +60,9 @@ public class Game {
         }
 
 
-        // GANADOR O EMPATE FINAL
+        // Final winner or tie of the game
 
-        Player winner = getWinner();
-
-        if (winner == null) {
-
-            System.out.println("Tie game");
-
-        } else {
-
-            System.out.println("The winner of the game is: " + winner.getName());
-        }
+        getWinner();
 
     }
 
@@ -87,7 +84,7 @@ public class Game {
 
         Scanner scanner = new Scanner(System.in);
 
-        while ( (currentPlayer.getHand().getCountCardsInHand() != Hand.NUM_TOTAL_CARDS) || (nextPlayer.getHand().getCountCardsInHand() != Hand.NUM_TOTAL_CARDS)) {
+        while ( isOnePlayersHandNotFull() ) {
 
             System.out.println("It is " + currentPlayer.getName() + "'s turn.");
 
@@ -99,8 +96,7 @@ public class Game {
 
             } else if (currentPlayer.getNumCardsRejected() < Game.MAX_CARDS_TO_REJECT) {
 
-                Card pickedCard = deck.getCardFromDeck();
-                deck.removePickedCard();
+                Card pickedCard= deck.pickCard();
 
                 System.out.println("Your card is: " + pickedCard.toString());
 
@@ -122,13 +118,11 @@ public class Game {
                 }
 
 
-            } else if (currentPlayer.getNumCardsRejected() >= Game.MAX_CARDS_TO_REJECT) {
+            } else {
 
                 System.out.println("You have rejected 2 cards. You have to keep the next card.");
 
-                Card pickedCard = deck.getCardFromDeck();
-
-                deck.removePickedCard();
+                Card pickedCard= deck.pickCard();
 
                 currentPlayer.getHand().addCard(pickedCard);
 
@@ -151,6 +145,13 @@ public class Game {
         nextPlayer = temp;
 
     }
+
+
+    private boolean isOnePlayersHandNotFull(){
+
+        return (currentPlayer.getHand().getCountCardsInHand() != Hand.NUM_TOTAL_CARDS) || (nextPlayer.getHand().getCountCardsInHand() != Hand.NUM_TOTAL_CARDS);
+
+        }
 
 
     private void comparePlayersHands() {
@@ -223,23 +224,19 @@ public class Game {
 
 
 
-    private Player getWinner(){
+    private void getWinner(){
 
         if (p1.getPoints() > p2.getPoints()) {
 
-            winner = p1;
-
-            return winner;
+            System.out.println("The winner of the game is: " + p1.getName());
 
         } else if (p2.getPoints() > p1.getPoints()) {
 
-            winner = p2;
-
-            return winner;
+            System.out.println("The winner of the game is: " + p2.getName());
 
         } else {
 
-            return null;
+            System.out.println("Tie game!");
         }
     }
 

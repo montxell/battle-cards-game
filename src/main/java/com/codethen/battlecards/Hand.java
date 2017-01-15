@@ -11,6 +11,8 @@ public class Hand {
 
     private List<Card> cardsInHand;
 
+    private Player p1;
+    private Player p2;
 
 
     public Hand() {
