@@ -15,8 +15,11 @@ public class Deck {
         this.cards = generateCards();  //También puede ser:   this.cards = new ArrayList<>();
                                        //                     generateCards();
 
-        this.cards = shuffle();        // Desordenar la baraja, generar números aleatorios, de donde a donde, qué limites se necesitan
+        shuffle();                     // Desordenar la baraja, generar números aleatorios, de donde a donde, qué limites se necesitan
                                        // y cómo mover un objeto de un objeto a otro, como las arrays, intercambiar.
+
+                                       // También se podría indicar:   this.cards = shuffle();
+                                       // entonces en el método se añade List<Card> y return cards;
 
     }
 
@@ -55,7 +58,7 @@ public class Deck {
 
 
 
-    public List<Card> shuffle() {
+    public void shuffle() {
 
         Random random = new Random();
 
@@ -69,8 +72,6 @@ public class Deck {
             cards.set(cardPosition, temp);  // Establecemos en la posición aleatoria (cardPosition) la carta guardada inicial "temp".
 
         }
-
-        return cards;
 
     }
 
